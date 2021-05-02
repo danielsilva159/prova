@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.hepta.funcionarios.entity.Funcionario;
+import com.hepta.funcionarios.entity.Setor;
 import com.hepta.funcionarios.persistence.FuncionarioDAO;
 
 @Path("/funcionarios")
@@ -81,6 +82,23 @@ public class FuncionarioService {
 		};
 		return Response.status(Status.OK).entity(entity).build();
 	}
+	
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@GET
+	public Response FuncionarioReadFindId(@PathParam("id") Integer id) {
+		Funcionario f1 = new Funcionario();
+		try {
+			f1 = dao.find(id);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar o setor").build();
+		}
+
+		GenericEntity<Funcionario> entity = new GenericEntity<Funcionario>(f1) {
+		};
+		return Response.status(Status.OK).entity(entity).build();
+	}
+
 
 	/**
 	 * Atualiza um Funcionario
@@ -118,6 +136,30 @@ public class FuncionarioService {
 		} catch (Exception e) {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao excluir Funcionarios").build();
 		}
-		return Response.status(Status.OK).build();	}
+		return Response.status(Status.OK).build();	
+		}
+	
+	/**
+	 * buscando funcionario pelo id do setor
+	 * 
+	 * @param id: id do Funcionario
+	 * @return response 200 (OK) - Conseguiu remover
+	 */
+	@Path("/setor/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@GET
+	public Response FuncionarioReadSetor(@PathParam("id") Integer id) {
+		List<Funcionario> Funcionarios = new ArrayList<>();
+		try {
+			Funcionarios = dao.buscandoFuncionarioPeloSetor(id);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar Funcionarios").build();
+		}
+
+		GenericEntity<List<Funcionario>> entity = new GenericEntity<List<Funcionario>>(Funcionarios) {
+		};
+		return Response.status(Status.OK).entity(entity).build();
+	}
+
 
 }

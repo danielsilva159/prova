@@ -86,7 +86,7 @@ public class SetorService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@GET
-	public Response SetorReadFindId(int id) {
+	public Response SetorReadFindId(@PathParam("id") Integer id) {
 		Setor s1 = new Setor();
 		try {
 			s1 = dao.find(id);

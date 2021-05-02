@@ -22,21 +22,13 @@ var inicio = new Vue({
     },
     methods:{
         buscaSetor: function(){
-			const vm = this;
-			axios.get("/funcionarios/rs/setor")
-			.then(response => {vm.listaSetor = response.data;
-			document.title = this.id?'Alterar dados do funcionario': "Cadastrar um novo funcionario";
 			this.atualizarCampos();
-			}).catch(function (error) {
-				vm.mostraAlertaErro("Erro interno", "Não foi listar natureza de serviços");
-			}).finally(function() {
-			});
 		},
 		enviarFormulario: function(){
-			axios.get("/funcionarios/rs/setor", {
-				id: this.setor
-			}).then(setorSelecionado =>{
-				this.setor = setorSelecionado.data[0];
+			let idSetor = this.setor;
+			axios.get("/funcionarios/rs/setor/"+idSetor).then(setorSelecionado =>{
+				console.log(setorSelecionado)
+				this.setor = setorSelecionado.data;
 			}).then(() =>{
 				let funcionario = {
 						id: this.id,
@@ -47,6 +39,7 @@ var inicio = new Vue({
 						idade: this.idade
 					};
 				if(!this.id){
+					
 				axios.post("/funcionarios/rs/funcionarios", funcionario).then(response =>{
 					this.limparCampos();
 					this.mensagem = "Funcionario salvo com sucesso";
@@ -56,6 +49,7 @@ var inicio = new Vue({
 				}else{
 					axios.put("/funcionarios/rs/funcionarios/"+this.id, funcionario).then(response =>{
 //						this.limparCampos();
+						this.setor = funcionario.setor.id;
 						this.mensagem = "Funcionario atualizado com sucesso";
 						this.titulo = "Alterar dados do funcionario";
 					}).catch(function (error){
@@ -73,19 +67,29 @@ var inicio = new Vue({
 			this.idade = null
 		},
 		
-		atualizarCampos(){
+		 atualizarCampos(){
 			const queryString = window.location.search;
 			const urlParams = new URLSearchParams(queryString);
 			this.id = urlParams.get('id')
+			console.log(this.id);
+			document.title = this.id?'Alterar dados do funcionario': "Cadastrar um novo funcionario";
 			if(this.id){
-				axios.get("/funcionarios/rs/funcionarios", {
-					id: this.id
-				}).then(funcionario =>{
-					this.nome = funcionario.data[0].nome;
-					this.email = funcionario.data[0].email;
-					this.salario = funcionario.data[0].salario;
-					this.idade = funcionario.data[0].idade;
-					this.setor = funcionario.data[0].setor.id;
+				let id = this.id;
+				 axios.get("/funcionarios/rs/funcionarios/"+id
+				 ).then(funcionario =>{
+					console.log(funcionario);
+					this.nome = funcionario.data.nome;
+					this.email = funcionario.data.email;
+					this.salario = funcionario.data.salario;
+					this.idade = funcionario.data.idade;
+					this.setor = funcionario.data.setor.id;
+				}).finally(()=> {
+					const vm = this;
+					axios.get("/funcionarios/rs/setor")
+					.then(response => {vm.listaSetor = response.data;
+					}).catch(function (error) {
+				vm.mostraAlertaErro("Erro interno", "Não foi listar natureza de serviços");
+					})
 				})
 				this.salvar = "Salvar";
 			}

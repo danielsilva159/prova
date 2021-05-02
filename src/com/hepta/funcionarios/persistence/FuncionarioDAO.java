@@ -85,5 +85,21 @@ public class FuncionarioDAO {
 		}
 		return Funcionarios;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Funcionario> buscandoFuncionarioPeloSetor(Integer id) throws Exception {
+		EntityManager em = HibernateUtil.getEntityManager();
+		List<Funcionario> Funcionarios = new ArrayList<>();
+		try {
+			Query query = em.createQuery("FROM Funcionario WHERE FK_SETOR = "+ id);
+			Funcionarios = query.getResultList();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw new Exception(e);
+		} finally {
+			em.close();
+		}
+		return Funcionarios;
+	}
 
 }
