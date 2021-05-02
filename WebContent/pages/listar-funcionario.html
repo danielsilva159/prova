@@ -21,7 +21,7 @@
 		<h4>Lista dos Funcionários</h4>
 		<a href="/funcionarios/pages/novo-funcionario.html"
 			class="btn btn-primary">Novo Funcionario</a> <a href="#"
-			class="btn btn-success" @click="abrirModalSetor()">Novo Setor</a>
+			class="btn btn-success">Novo Setor</a>
 		<table>
 			<tr>
 				<th>Nome</th>
@@ -47,7 +47,14 @@
 		</table>
 		<excluir-funcionario v-if="showModal" @close="showModal = false" :funcionario="idFuncionario"
 		 texto="Confirma a exclusão do funcionario?" :valor="nome"> </excluir-funcionario>
-		<modal-setor v-if="showSetor"></modal-setor>
+
+		<div></div>
+		<nav>
+			<router-link to="/">Home</router-link>
+			<router-link to="/login">Login</router-link>
+			<router-link to="/pages/novo-funcionario.html">About</router-link>
+		</nav>
+		<router-view></router-view>
 	</div>
 
 
@@ -58,6 +65,5 @@
 	<script src="resources/js/axios.min.js"></script>
 	<script src="resources/js/index.js"></script>
 	<script src="resources/js/modal-excluir.js"></script>
-	<script src="resources/js/modal-setor.js"></script>
 </body>
 </html>

@@ -1,29 +1,7 @@
-const Home  = {
-		  template: '<div>Home</div>'
-		}
 
-		const Login = {
-		  template: '<excluir-funcionario></excluir-funcionario>'
-		}
-
-		const About = {
-		  template: '<div>About</div>',
-		  url:'/pages/novo-funcionario.html'
-		}
-
-		const router = new VueRouter({
-		  routes: [
-		    { path: '/', component: Home },
-		    { path: '/login', component: Login },
-		    { path: '/pages/novo-funcionario.html', component: About }
-		  ]
-		})
-
-
-var inicio = new Vue({
-	el:"#inicio",
+export default{
+	name: 'home',
     data: {
-    	
         listaProdutos: [],
         listaProdutosHeader: [
 			{sortable: false, key: "nome", label:"Nome"},
@@ -33,7 +11,6 @@ var inicio = new Vue({
 			{sortable: false, key: "estoque", label:"Estoque"}
 		],
 		showModal:false,
-		showSetor:false,
 		idFuncionario:null,
 		nome:''
     },
@@ -57,11 +34,8 @@ var inicio = new Vue({
 			this.idFuncionario = id;
 			this.nome = nome;
 		},
-		abrirModalSetor(){
-			this.showSetor = true;
-		},
 		excluir(id){
-			
+			console.log('teste')
 			axios.delete("/funcionarios/rs/funcionarios/"+id)
 			.then(response => {
 				this.showModal = false;
@@ -72,15 +46,11 @@ var inicio = new Vue({
 			});
 		},
 		 editar(id){
-			window.location.href = "/funcionarios/pages/novo-funcionario.html?id="+id;
-		},
-		fecharModal(){
-			this.showSetor = false;
+			
 		}
 		},
-		
-		
+	
     
-})
+}
 
 

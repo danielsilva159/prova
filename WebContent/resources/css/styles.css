@@ -1,0 +1,19 @@
+@charset "ISO-8859-1";
+
+.modal-active{
+	display:block;
+	opacity: initial;
+}
+
+.input-setor input{
+	padding: 10px;
+	width: 70%;
+	margin-right: 1em;
+	
+}
+.input-setor button{
+	background-color: #0000cc;
+	border-color: : #0000cc;
+	color: #fff;
+	padding: 10px;
+}

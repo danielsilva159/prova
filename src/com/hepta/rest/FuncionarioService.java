@@ -1,4 +1,4 @@
-package com.hepta.funcionarios.rest;
+package com.hepta.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,14 @@ public class FuncionarioService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@POST
-	public Response FuncionarioCreate(Funcionario Funcionario) {
-		return Response.status(Status.NOT_IMPLEMENTED).build();
+	public Response FuncionarioCreate(Funcionario funcionario) {
+		
+		try {
+			dao.save(funcionario);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao salvar Funcionarios").build();
+		}
+		return Response.status(Status.OK).build();
 	}
 
 	/**
@@ -88,7 +94,13 @@ public class FuncionarioService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	public Response FuncionarioUpdate(@PathParam("id") Integer id, Funcionario Funcionario) {
-		return Response.status(Status.NOT_IMPLEMENTED).build();
+		try {
+			dao.update(Funcionario);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar Funcionarios").build();
+		}
+		
+		return Response.status(Status.OK).build();
 	}
 
 	/**
@@ -101,7 +113,11 @@ public class FuncionarioService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@DELETE
 	public Response FuncionarioDelete(@PathParam("id") Integer id) {
-		return Response.status(Status.NOT_IMPLEMENTED).build();
-	}
+		try {
+			dao.delete(id);
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao excluir Funcionarios").build();
+		}
+		return Response.status(Status.OK).build();	}
 
 }
