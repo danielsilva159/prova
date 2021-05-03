@@ -17,7 +17,18 @@
 
 
 	<div id="app">
-		 	<p v-if="mensagem">{{mensagem}}</p> 
+		 	
+		 	<div v-if="mensagem" class="alert alert-primary alert-dismissible fade show" role="alert">
+  					{{mensagem}}
+  				<button type="button" class="close" @click="fecharMensagem()">
+    				<span aria-hidden="true">&times;</span>
+  				</button>
+</div>
+		 	<div>
+		 		<ul v-for="erro in erros">
+		 			<li class="alert alert-danger">{{erro}}</li>
+		 		</ul>
+		 	</div>
 
 		<h4>Cadastro de funcionário</h4>
 
@@ -25,7 +36,7 @@
 			<div class="form-group">
 				<label for="nome">Nome</label> <input type="text"
 					class="form-control" id="nome"
-					aria-describedby="emailHelp" placeholder="Nome" v-model="nome">
+					aria-describedby="emailHelp" placeholder="Nome" v-model="nome" required="required">
 			</div>
 			<div class="form-group">
 				<label for="idade">Idade</label> <input
@@ -45,12 +56,11 @@
 			<div class="form-group">
 				<label for="exampleFormControlSelect1">Selecione um setor</label> <select
 					class="form-control" id="exampleFormControlSelect1" v-model="setor">
-					<option disabled selected="selected" >Escolha um setor</option>
 					<option v-for="setor in listaSetor" v-bind:value="setor.id">{{setor.nome}}</option>
 
 				</select>
 			</div>
-			<button type="submit" @click="enviarFormulario" class="btn btn-primary">{{salvar}}</button>
+			<button type="submit" @click="enviarFormulario($event)" class="btn btn-primary">{{salvar}}</button>
 		</div>
 	</div>
 	
